@@ -78,4 +78,32 @@ Diese Funktionsgruppe innerhalb des Boosters wird "Cutout Device" genannt. Ein s
 Cutout Device könnte auch als separate Einheit außerhalb des Boosters ausgeführt werden.
 Die eigentliche Datenübertragung erfolgt mittels einer Stromschleife. Den dazu notwendigen
 Strom muss der Decoder aus seinem internen Puffer bereitstellen. Abbildung 1 zeigt die
-Anordnung von Booster, Detector und Decoder während des RailCom-Cutout. 
+Anordnung von Booster, Detector und Decoder während des RailCom-Cutout.
+
+2.2 RailCom – Sender im Decoder
+----------------------------------------
+
+Um eine '0' zu übertragen, muss der Decoder einen Strom I von 30+4/-6 mA liefern, bei
+einem Spannungsabfall am Gleis von bis zu 2.2 V. Ist Hochstrom-RailCom in CV28
+freigegeben, beträgt der Strom 60 +8/-12 mA, ebenfalls bei einem Spannungsabfall am Gleis
+von bis zu 2.2 V. Bei einer '1' darf der Strom I höchstens ± 0.1 mA betragen. Die Stromquelle
+des Decoders muss gegen unerwartete Fremdspannung am Gleis während des Cutout
+geschützt sein. Abbildung 2 zeigt eine mögliche Hardware-Realisierung.
+
+.. note::
+    Erläuterung zum Schaltbild:
+    Der RailCom-Teil besteht nur aus den Widerständen R1 bis R3 und den Transistoren T1A bis
+    T2B. T1A und T1B bilden eine Stromquelle, T2A ist als Diode geschaltet und schützt die
+    Stromquelle vor positiven Spannungen höher Vcc.
+    Alle anderen Teile der Schaltung gehören zur normal notwendigen Hardware des Decoders.
+    Man beachte den äußerst geringen Hardwareaufwand für den RailCom-Sender. 
+
+Es wird empfohlen, dass die Einspeisung so erfolgt, dass der positive Pol an der in
+Fahrtrichtung vorwärts rechten Schiene liegt. Damit kann die Richtung des Fahrzeugs auf
+dem Gleis erkannt werden. Allerdings gibt es Situationen, in denen diese Empfehlung nicht
+eingehalten werden kann. Daher wurde die ID 3 im Kanal 1 ergänzt (Abschnitt 5.2.2).
+Die Richtungserkennung funktioniert Prinzip bedingt nur im Zweischienen-ZweileiterSystem. Im Dreischienen-Zweileiter-System ("Märklin") und im Dreischienen-DreileiterSystem ("Trix-Express") kann die Aufgleisrichtung nicht über die Polarität des RailCom- oder
+Gleissignals erkannt werden. Also weder durch die Empfehlung hier noch über die ID 3 im
+Kanal 1.
+
+
