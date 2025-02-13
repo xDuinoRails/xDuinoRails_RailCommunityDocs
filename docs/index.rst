@@ -106,4 +106,37 @@ Die Richtungserkennung funktioniert Prinzip bedingt nur im Zweischienen-Zweileit
 Gleissignals erkannt werden. Also weder durch die Empfehlung hier noch über die ID 3 im
 Kanal 1.
 
+2.3 Der RailCom Detector
+----------------------------------------
+
+Ein Detector muss einen Strom von größer 10mA während der mittleren 50% der Bitzeit als
+'0' interpretieren, einen Strom von kleiner 6 mA während der mittleren 50% der Bitzeit als '1'.
+Der Spannungsabfall über dem Detector darf 200mV bei maximal 34 mA während des Cutout
+nicht übersteigen. Abbildung 3 zeigt eine mögliche Hardware Realisierung.
+
+Es dürfen maximal zwei Detectoren (inkl. des globalen Detectors) in Reihe verwendet
+werden, wobei der lokale Detector einen Anschluss für externe Auswertung einer
+Gleisbelegung enthalten sollte. Ist dies nicht der Fall, müssen extern verwendete Belegtmelder
+für RailCom spezifiziert sein. Erläuterung: 
+
+.. note::
+    Getestet wurden diese Schaltungen (Sender und Detector) auf großen Clubanlagen bis zu
+    einer Entfernung von 100m. Diese Entfernung wurde problemlos überbrückt. Zugelassen sind
+    dabei nicht vom Gleis durch Brückengleichrichter isolierte Verbraucher von 5 Ohm, die
+    parallel zum Messwiderstand des Detectors liegen.
+    Der Wert von 5 Ohm entspricht bei einer Gleisspannung von 15V einem Strom von 3A.
+    Glühlampen (Kaltleiter) sind immer über einen schnellen Brückengleichrichter (< 500 ns) zu
+    betreiben. 
+
+2.4 Timing
+----------------------------------------
+
+In einem Cutout können bis zu 8 Byte Daten übertragen werden. Jedes übertragene Byte
+beginnt mit einem Startbit ('0') gefolgt von den 8 Datenbits (niederwertigstes Bit zuerst) und
+endet mit einem Stoppbit ('1'). Die Übertragungsrate ist 250 kbit/s ±2%. Die Anstiegszeit
+(10% → 90%) und Abfallzeit (90% → 10%) darf 0,5 µs nicht überschreiten.
+Das RailCom Cutout ist in zwei Kanäle unterteilt. Im Kanal 1 können 2 Bytes, im Kanal 2 bis
+zu 6 Bytes übertragen werden. Abbildung 4 zeigt das Timing Diagramm. Sämtliche Zeiten
+sind auf den Null-Durchgang der letzten Flanke des Paket-Endebits bezogen. 
+
 
